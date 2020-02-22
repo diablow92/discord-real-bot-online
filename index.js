@@ -55,4 +55,4 @@ bot.on('message', message => {
 
 console.log('Bot started');
 
-bot.login(process.env.token);
+bot.login(process.env.AUTH_TOKEN);
