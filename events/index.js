@@ -1,0 +1,1 @@
+exports.messageUpdated = require('./messageUpdated');
