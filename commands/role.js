@@ -127,15 +127,12 @@ module.exports = {
     // Check if they already have the role
     const hasRole = message.member.roles.findKey('id', targetRole.id);
     if (hasRole) {
-      // Remove the role (KR EDIT)
+      // Remove the role (KR EDIT back)
       message.member.removeRole(targetRole)
-        .then(
-          () => {
-            message.delete()
-    .catch(reason => {
-      // TODO Error handler (KR EDIT)
-      console.error(reason)});
-            return;
+      .then(
+        () => {
+          message.reply('I\'ve removed that role from you! :ok_hand:');
+          return;
           },
           (rejectReason) => {
             // TODO: Reject handler
@@ -152,14 +149,11 @@ module.exports = {
         return;
       }
 
-      // Add the new role (KR EDIT)
+      // Add the new role (KR EDIT back)
       message.member.addRole(targetRole)
         .then(
           () => {
-            message.delete()
-    .catch(reason => {
-      // TODO Error handler(KR EDIT)
-      console.error(reason)});
+            message.reply('I\'ve added your new role! :ok_hand:');
             return;
           },
           (rejectReason) => {
