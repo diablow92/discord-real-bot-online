@@ -7,6 +7,14 @@ module.exports = {
   process: (bot, message) => {
     let msg = message.content;
 
+    function findRole(guild, roleName) {
+        for (const role of guild.roles.array()) {
+          if (role.name.toLowerCase() === roleName.toLowerCase()) {
+            return role;
+          }
+        }
+      }
+
     const targetRole = findRole('kjr');
     // Check if they already have the role
     const hasRole = message.member.roles.findKey('id', targetRole.id);
