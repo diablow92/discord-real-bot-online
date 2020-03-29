@@ -7,12 +7,12 @@ module.exports = {
   process: (bot, message) => {
     let msg = message.content;
 
-    const kjr = 'kjr';
+    const targetRole = findRole('kjr');
     // Check if they already have the role
-    const hasRole = message.member.roles.findKey('id', kjr.id);
+    const hasRole = message.member.roles.findKey('id', targetRole.id);
     if (hasRole) {
       // Remove the role (KR EDIT back)
-      message.member.removeRole(kjr)
+      message.member.removeRole(targetRole)
       .then(
         () => {
           message.reply('I\'ve removed that role from you! :ok_hand:');
@@ -34,7 +34,7 @@ module.exports = {
       }
 
       // Add the new role (KR EDIT back)
-      message.member.addRole(kjr)
+      message.member.addRole(targetRole)
         .then(
           () => {
             message.reply('I\'ve added your new role! :ok_hand:');
