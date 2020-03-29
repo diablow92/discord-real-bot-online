@@ -7,7 +7,7 @@ module.exports = {
   process: (bot, message) => {
     let msg = message.content;
 
-    const kjr = kjr;
+    const kjr = 'kjr';
     // Check if they already have the role
     const hasRole = message.member.roles.findKey('id', kjr.id);
     if (hasRole) {
