@@ -1,5 +1,4 @@
-const kjr = require('../kjr');
-
+const roles = require('../roles');
 module.exports = {
   usage: '[kjr]',
   description: 'Toggles on/off kjr role from yourself.',
