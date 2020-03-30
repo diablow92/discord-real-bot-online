@@ -80,7 +80,7 @@ module.exports = {
     let msg = message.content;
 
     // Collapse parameters into a space-delimited string
-    let roleName = ('kev');
+    let roleName = ('liz');
 
     // Perform a case-insensitive search for the role
     const targetRole = findRole(message.guild, roleName);

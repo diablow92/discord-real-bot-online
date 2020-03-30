@@ -17,4 +17,5 @@ exports.spray = require('./spray');
 exports.under18 = require('./under18');
 exports.unset18 = require('./unset18');
 exports.unsetregion = require('./unsetregion');
-exports.kjr = require('./kjr');
+exports.kev = require('./kev');
+exports.liz = require('./liz');
