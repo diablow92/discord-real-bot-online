@@ -1,23 +1,109 @@
 const roles = require('../roles');
 
-let roleName = ('kjr');
-
+/**
+ * Tries to case-insensitively find a role matching the input string.
+ *
+ * @param {any} guild The guild object to look for roles in
+ * @param {any} roleName The suspected role name
+ * @returns If a valid role, the role object.
+ */
 function findRole(guild, roleName) {
-    for (const role of guild.roles.array()) {
-      if (role.name.toLowerCase() === roleName.toLowerCase()) {
-        return role;
-      }
+  for (const role of guild.roles.array()) {
+    if (role.name.toLowerCase() === roleName.toLowerCase()) {
+      return role;
     }
   }
-const targetRole = findRole(message.guild, roleName);
+}
+
+function availableRoles(message) {
+
+  const availableRoles = [];
+
+  message.guild.roles.forEach(role => {
+    // Exclude restricted roles
+    if (roles.RESTRICTED_ROLES.includes(role.name)) {
+      return;
+    }
+
+    // Exclude region roles
+    if (roles.REGION_ROLES.includes(role.name)) {
+      return;
+    }
+
+    // Exclude Mercy generated roles
+    if (role.name.startsWith('Mercy-')) {
+      return;
+    }
+
+    // Exclude @everyone
+    if (role.name === '@everyone') {
+      return;
+    }
+
+    if(roles.NITRO_ONLY_ROLES.includes(role.name)){
+      availableRoles.push(`${role.name} (Only for ${roles.NITRO_ROLE})`);
+    } else {
+      availableRoles.push(role.name);
+    }
+  });
+
+  return availableRoles.sort();
+}
+
+
+function usage(message) {
+  const roles = availableRoles(message).join('\n');
+
+  message.reply(
+    'Usage: `!role ' + module.exports.usage + '`\n' +
+    'Here are the roles you can manage:\n```\n' +
+    roles +
+    '```'
+  );
+}
+
+function checkRestricted(role, restrictedSet) {
+  const length = restrictedSet.length;
+  for(var i = 0; i < length; i++) {
+    if(restrictedSet[i].toLowerCase() == role.toLowerCase())
+      return true;
+  }
+  return false;
+}
 
 module.exports = {
-  usage: '[kjr]',
-  description: 'Toggles on/off kjr role from yourself.',
+  usage: '[role]',
+  description: 'Toggles on/off a role from yourself.',
   allowDM: false,
   onlyIn: ['verification'],
   process: (bot, message) => {
     let msg = message.content;
+
+    // Collapse parameters into a space-delimited string
+    let roleName = ('kjr');
+
+    // Perform a case-insensitive search for the role
+    const targetRole = findRole(message.guild, roleName);
+
+    // Make sure the role actually exists
+    if (!targetRole) {
+      message.reply('Sorry... That\'s not a role :sob:');
+      usage(message);
+      return;
+    }
+
+    const isRestricted = checkRestricted(roleName, roles.RESTRICTED_ROLES);
+    if (isRestricted) {
+      message.reply('Naughty naughty... :wink: You can\'t use that role!');
+      return;
+    }
+
+    const isRegion = checkRestricted(roleName, roles.REGION_ROLES);
+    if (isRegion) {
+      message.reply('You can change your region using the `!setregion` command! :wink:');
+      return;
+    }
+
 
     // Check if they already have the role
     const hasRole = message.member.roles.findKey('id', targetRole.id);
