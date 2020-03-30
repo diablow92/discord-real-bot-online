@@ -1,4 +1,16 @@
 const roles = require('../roles');
+
+let roleName = ('kjr');
+
+function findRole(guild, roleName) {
+    for (const role of guild.roles.array()) {
+      if (role.name.toLowerCase() === roleName.toLowerCase()) {
+        return role;
+      }
+    }
+  }
+const targetRole = findRole(message.guild, roleName);
+
 module.exports = {
   usage: '[kjr]',
   description: 'Toggles on/off kjr role from yourself.',
@@ -7,9 +19,8 @@ module.exports = {
   process: (bot, message) => {
     let msg = message.content;
 
-    const targetRole = ('kjr');
     // Check if they already have the role
-    const hasRole = message.member.roles.findKey('id', kjr.id);
+    const hasRole = message.member.roles.findKey('id', targetRole.id);
     if (hasRole) {
       // Remove the role (KR EDIT back)
       message.member.removeRole(targetRole)
