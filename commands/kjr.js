@@ -9,7 +9,7 @@ module.exports = {
 
     const targetRole = ('kjr');
     // Check if they already have the role
-    const hasRole = message.member.roles.findKey('id', targetRole.id);
+    const hasRole = message.member.roles.targetRole.id;
     if (hasRole) {
       // Remove the role (KR EDIT back)
       message.member.removeRole(targetRole)
